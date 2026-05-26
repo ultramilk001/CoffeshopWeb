@@ -16,13 +16,15 @@ import {
   ShieldCheck, 
   Lock, 
   Clock,
-  Sparkles
+  Sparkles,
+  Database
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import GoogleSheetsSync from './components/GoogleSheetsSync';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'kasir' | 'inventaris' | 'profile'>('profile');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'database' | 'kasir' | 'inventaris' | 'profile'>('profile');
   const [currentLocalTime, setCurrentLocalTime] = useState<string>('');
 
   // Screen AutoLock states
@@ -154,6 +156,7 @@ export default function App() {
     if (role === 'admin') return true; // admin has absolute full access
     
     if (tab === 'dashboard') return role === 'manager';
+    if (tab === 'database') return role === 'manager';
     if (tab === 'kasir') return role === 'kasir';
     if (tab === 'inventaris') return role === 'manager';
     if (tab === 'profile') return true; // all users can access profile
@@ -195,6 +198,8 @@ export default function App() {
     switch (activeTab) {
       case 'dashboard':
         return <DashboardScreen key={refreshTrigger} />;
+      case 'database':
+        return <GoogleSheetsSync />;
       case 'kasir':
         return (
           <CashierScreen 
@@ -356,6 +361,22 @@ export default function App() {
               >
                 <LayoutDashboard className="w-4 h-4" />
                 <span className="hidden sm:inline">Laporan</span>
+              </button>
+            )}
+
+            {/* Nav Pill 1.5: Database Synced (Only manager or admin) */}
+            {isTabAllowed('database', currentUser.role) && (
+              <button
+                id="tab-btn-database"
+                onClick={() => setActiveTab('database')}
+                className={`px-3 py-2 text-xs font-extrabold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeTab === 'database'
+                    ? 'bg-sage-600 text-white scale-102 shadow-sm font-black'
+                    : 'text-coffee-750 hover:bg-coffee-100/60'
+                }`}
+              >
+                <Database className="w-4 h-4" />
+                <span className="hidden sm:inline">Database Cloud</span>
               </button>
             )}
 

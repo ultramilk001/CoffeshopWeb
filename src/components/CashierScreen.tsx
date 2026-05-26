@@ -243,6 +243,44 @@ export default function CashierScreen({ currentUser, onRefreshStats }: CashierSc
     saveStoredTransactions(savedTxs);
     setTransactions(savedTxs);
 
+    // Auto post to Google Apps Script if URL is configured
+    const appScriptUrl = localStorage.getItem('kk_appscript_url');
+    if (appScriptUrl) {
+      const itemsDesc = newTx.items.map(it => 
+        `${it.name} (${it.quantity}x, Dimensi: ${it.size || 'Regular'}, Gula: ${it.sugar}, Es: ${it.ice})`
+      ).join(', ');
+
+      fetch(appScriptUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'addTransaction',
+          transaction: {
+            id: newTx.id,
+            invoiceNumber: newTx.invoiceNumber,
+            itemsDescription: itemsDesc,
+            subtotal: newTx.subtotal,
+            tax: newTx.tax,
+            discount: newTx.discount,
+            total: newTx.total,
+            paymentMethod: newTx.paymentMethod,
+            amountPaid: newTx.amountPaid,
+            amountChange: newTx.amountChange,
+            createdAt: newTx.createdAt,
+            cashierId: newTx.cashierId,
+            cashierName: newTx.cashierName
+          }
+        })
+      }).then(() => {
+        console.log('Real-time transaction uploaded to Google Apps Script cloud database.');
+      }).catch(err => {
+        console.warn('Real-time sync to Apps Script failed:', err);
+      });
+    }
+
     // Prompt receipt modal
     setLastCompletedTransaction(newTx);
     setShowReceiptModal(true);
