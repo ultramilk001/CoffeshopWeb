@@ -3,10 +3,13 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
 
-export default defineConfig(() => {
+export default defineConfig(({ command }) => {
+  // Gunakan '/CoffeshopWeb/' untuk semua production build (baik di local komputer Anda maupun di GitHub Actions)
+  // Gunakan '/' hanya untuk development mode (serve / preview AI Studio) agar tampil sempurna
+  const isBuild = command === 'build';
+
   return {
-    // Mengunci Base URL ke nama repositori Anda sewaktu mode production build
-    base: process.env.NODE_ENV === 'production' ? '/CoffeshopWeb/' : './',
+    base: isBuild ? '/CoffeshopWeb/' : '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
