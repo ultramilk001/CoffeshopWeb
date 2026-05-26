@@ -1,0 +1,6 @@
+{
+  "name": "Coffee Shop POS",
+  "description": "Sistem Point of Sale (POS) kedai kopi modern dengan manajemen kasir, inventaris, laporan keuangan, dan otentikasi peran.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

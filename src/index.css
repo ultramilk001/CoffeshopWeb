@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-coffee-50: #FDF8F2;
+  --color-coffee-100: #F5EFE6;
+  --color-coffee-205: #D2B48C;
+  --color-coffee-200: #D2B48C;
+  --color-coffee-300: #C19A6B;
+  --color-coffee-400: #A0522D;
+  --color-coffee-500: #8B4513;
+  --color-coffee-600: #6F4E37;
+  --color-coffee-700: #4D3B2F;
+  --color-coffee-800: #3D2B1F;
+  --color-coffee-900: #3D2B1F;
+  --color-coffee-950: #3D2B1F;
+
+  --color-cream-50: #FDF8F2;
+  --color-cream-100: #F5EFE6;
+  --color-cream-205: #D2B48C;
+  --color-cream-200: #D2B48C;
+  --color-cream-300: #C19A6B;
+
+  --color-sage-50: #F2F5F0;
+  --color-sage-100: #E6EDD9;
+  --color-sage-200: #D2B48C;
+  --color-sage-300: #ABB69C;
+  --color-sage-500: #2D5A27;
+  --color-sage-600: #2D5A27;
+  --color-sage-700: #1E3D1A;
+  --color-sage-800: #142112;
+  --color-sage-900: #0C120B;
+}
+
+body {
+  background-color: var(--color-coffee-50);
+  color: var(--color-coffee-950);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar to match the coffee theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-coffee-50);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-coffee-300);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-coffee-400);
+}
