@@ -279,6 +279,29 @@ export default function CashierScreen({ currentUser, onRefreshStats }: CashierSc
       }).catch(err => {
         console.warn('Real-time sync to Apps Script failed:', err);
       });
+
+      // Update stock on Google Sheets in real-time
+      newTx.items.forEach(item => {
+        const localProd = products.find(p => p.id === item.productId);
+        const productQueryValue = localProd?.sku || item.productId;
+        
+        fetch(appScriptUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            action: 'updateStock',
+            id: productQueryValue,
+            amount: -item.quantity // Deduct quantity on active transaction
+          })
+        }).then(() => {
+          console.log(`Real-time stock deduction (-${item.quantity}) for product code ${productQueryValue} uploaded.`);
+        }).catch(err => {
+          console.warn('Real-time stock sync failed:', err);
+        });
+      });
     }
 
     // Prompt receipt modal
