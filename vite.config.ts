@@ -4,8 +4,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig(({ command }) => {
-  // Gunakan '/CoffeshopWeb/' untuk semua production build (baik di local komputer Anda maupun di GitHub Actions)
-  // Gunakan '/' hanya untuk development mode (serve / preview AI Studio) agar tampil sempurna
+  // '/CoffeshopWeb/' untuk production build, '/' untuk local development
   const isBuild = command === 'build';
 
   return {
